@@ -1,32 +1,43 @@
 {
-    "stateHandle": "022FJBvS6bHS7OjQSOhtfghhJvO2a2TELaMZ94s69K",
+    "stateHandle": "02EQcms7FOAByCjwRqpUCKfzxNJj2wJ_nh3x7zheyD",
     "version": "1.0.0",
-    "expiresAt": "2019-08-27T16:57:50.000Z",
+    "expiresAt": "2020-12-08T00:31:33.000Z",
     "intent": "LOGIN",
     "success": {
         "name": "success-redirect",
         "href": "http://localhost:3000/app/UserHome?stateToken=mockedStateToken123"
     },
     "user": {
-        "type": "object",
-        "value": {
-            "id": "00ub0ttoyz062NeVa0g4"
-        }
+      "type": "object",
+      "value": {
+        "id": "00u1hgf3Hm13X0oxz0g4",
+        "identifier": "admin@okta.com"
+      }
     },
     "cancel": {
-        "rel": [
-            "create-form"
-        ],
-        "name": "cancel",
-        "href": "http://localhost:3000/idp/idx/cancel",
-        "method": "POST",
-        "accepts": "application/vnd.okta.v1+json",
-        "value": [
-            {
-                "name": "stateHandle",
-                "value": "022FJBvS6bHS7OjQSOhtfghhJvO2a2TELaMZ94s69K",
-                "visible": false
-            }
-        ]
+      "rel": [
+        "create-form"
+      ],
+      "name": "cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
+      "method": "POST",
+      "value": [
+        {
+          "name": "stateHandle",
+          "required": true,
+          "value": "02EQcms7FOAByCjwRqpUCKfzxNJj2wJ_nh3x7zheyD",
+          "visible": false,
+          "mutable": false
+        }
+      ],
+      "accepts": "application/ion+json; okta-version=1.0.0"
+    },
+    "app": {
+      "type": "object",
+      "value": {
+        "name": "saasure",
+        "label": "Okta Administration",
+        "id": "0oa1heimi0IDMJoo90g4"
+      }
     }
-}
+  }

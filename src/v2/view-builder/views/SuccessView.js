@@ -5,7 +5,14 @@ import { loc } from 'okta';
 
 const Body = BaseForm.extend({
   title () {
-    return  loc('oie.success.redirect', 'login');
+    // For more info on the API response available in appState, see IdxResponse:
+    // https://github.com/okta/okta-core/blob/master/server/api/src/main/java/com/okta/api/mediation/
+    // services/auth/IdxResponseBuilder.java
+    const {label: appDisplayName} = this.options.appState.get('app');
+    const {identifier: userEmail} = this.options.appState.get('user');
+
+    return userEmail ? loc('oie.success.text.signingIn', 'login', [appDisplayName, userEmail]) :
+      loc('oie.success.text.signingInWithoutIdentifier', 'login', appDisplayName);
   },
   noButtonBar: true,
   initialize () {
