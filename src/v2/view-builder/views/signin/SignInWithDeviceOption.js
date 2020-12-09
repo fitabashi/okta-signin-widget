@@ -30,13 +30,26 @@ export default View.extend({
       icon: 'okta-verify-authenticator',
       title: loc('oktaVerify.button', 'login'),
       click () {
-        if (deviceChallenge.challengeMethod && deviceChallenge.challengeMethod === Enums.UNIVERSAL_LINK_CHALLENGE) {
+        const isUVapproach = deviceChallenge.challengeMethod &&
+          deviceChallenge.challengeMethod === Enums.UNIVERSAL_LINK_CHALLENGE;
+        if (isUVapproach) {
+          // launch the Okta Verify app
           Util.redirect(deviceChallenge.href);
         }
         if (this.options.isRequired) {
           appState.trigger('saveForm', this.model);
         } else {
-          appState.trigger('invokeAction', Enums.LAUNCH_AUTHENTICATOR_REMEDIATION_NAME);
+          // OKTA-350084
+          // For the universal link (iOS) approach,
+          // we need to 1. launch the Okta Verify app
+          // and 2. take the enduser to the next step right away
+          // In Safari, when Okta Verify app is not installed, step 1 responds with error immediately,
+          // then step 2 will respond with error.
+          // To avoid showing the error right before switching to the next UI,
+          // wait for 500 milliseconds before invoking step 2
+          setTimeout(() => {
+            appState.trigger('invokeAction', Enums.LAUNCH_AUTHENTICATOR_REMEDIATION_NAME);
+          }, isUVapproach ? 500 : 0);
         }
       }
     }), '.okta-verify-container');
